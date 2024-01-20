@@ -1,0 +1,86 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.1'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "26.0.2"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionName "1.0"
+
+        applicationId 'com.android.inputmethod.pinyin'
+        vectorDrawables.useSupportLibrary = false
+
+        signingConfig signingConfigs.debug
+        externalNativeBuild {
+            cmake {
+                version "3.6.4111459"
+                cppFlags "-Wall"
+                abiFilters 'arm64-v8a'
+            }
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("shared.keystore")
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+        release {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.flags'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    flavorDimensions "default"
+
+    sourceSets {
+        main {
+            res.srcDirs = ['res']
+            jniLibs.srcDirs = ['jni']
+            java.srcDirs = ['src']
+            aidl.srcDirs = ['lib']
+            manifest.srcFile 'AndroidManifest.xml'
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
+    aaptOptions {
+        noCompress 'dat'
+    }
+
+    externalNativeBuild {
+        cmake {
+            path 'jni/CMakeLists.txt'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    google()
+    jcenter()
+}

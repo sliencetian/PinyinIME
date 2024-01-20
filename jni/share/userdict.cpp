@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <cutils/log.h>
+//#include <cutils/log.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -47,12 +47,12 @@ static struct timeval _tv_start_, _tv_end_;
       _ellapse_ = (_tv_end_.tv_sec - _tv_start_.tv_sec) * 1000000 + \
                   (_tv_end_.tv_usec - _tv_start_.tv_usec); \
     } while(0)
-#define LOGD_PERF(message) \
-    ALOGD("PERFORMANCE[%s] %llu usec.", message, _ellapse_);
-#else
+//#define LOGD_PERF(message) \
+//    ALOGD("PERFORMANCE[%s] %llu usec.", message, _ellapse_);
+//#else
 #define DEBUG_PERF_BEGIN
 #define DEBUG_PERF_END
-#define LOGD_PERF(message)
+//#define LOGD_PERF(message)
 #endif
 
 // XXX File load and write are thread-safe by g_mutex_
@@ -273,7 +273,7 @@ bool UserDict::load_dict(const char *file_name, LemmaIdType start_id,
 
 #ifdef ___DEBUG_PERF___
   DEBUG_PERF_END;
-  LOGD_PERF("load_dict");
+//  LOGD_PERF("load_dict");
 #endif
   return true;
  error:
@@ -359,7 +359,7 @@ MileStoneHandle UserDict::extend_dict(MileStoneHandle from_handle,
                        lpi_items, lpi_max, &need_extend);
 #ifdef ___DEBUG_PERF___
   DEBUG_PERF_END;
-  LOGD_PERF("extend_dict");
+//  LOGD_PERF("extend_dict");
 #endif
   return ((*lpi_num > 0 || need_extend) ? 1 : 0);
 }
@@ -1674,7 +1674,7 @@ void UserDict::defragment(void) {
 
 #ifdef ___DEBUG_PERF___
   DEBUG_PERF_END;
-  LOGD_PERF("defragment");
+//  LOGD_PERF("defragment");
 #endif
 }
 
@@ -1799,7 +1799,7 @@ int UserDict::put_lemmas_no_sync_from_utf16le_string(char16 * lemmas, int len) {
 
 #ifdef ___DEBUG_PERF___
   DEBUG_PERF_END;
-  LOGD_PERF("put_lemmas_no_sync_from_utf16le_string");
+//  LOGD_PERF("put_lemmas_no_sync_from_utf16le_string");
 #endif
   return newly_added;
 }
@@ -2066,7 +2066,7 @@ LemmaIdType UserDict::_put_lemma(char16 lemma_str[], uint16 splids[],
       state_ = USER_DICT_SCORE_DIRTY;
 #ifdef ___DEBUG_PERF___
     DEBUG_PERF_END;
-    LOGD_PERF("_put_lemma(update)");
+//    LOGD_PERF("_put_lemma(update)");
 #endif
     return ids_[off];
   } else {
@@ -2092,7 +2092,7 @@ LemmaIdType UserDict::_put_lemma(char16 lemma_str[], uint16 splids[],
     }
 #ifdef ___DEBUG_PERF___
     DEBUG_PERF_END;
-    LOGD_PERF(flushed ? "_put_lemma(flush+add)" : "_put_lemma(add)");
+//    LOGD_PERF(flushed ? "_put_lemma(flush+add)" : "_put_lemma(add)");
 #endif
     LemmaIdType id = append_a_lemma(lemma_str, splids, lemma_len, count, lmt);
 #ifdef ___SYNC_ENABLED___
@@ -2154,7 +2154,7 @@ LemmaIdType UserDict::update_lemma(LemmaIdType lemma_id, int16 delta_count,
       state_ = USER_DICT_SCORE_DIRTY;
 #ifdef ___DEBUG_PERF___
     DEBUG_PERF_END;
-    LOGD_PERF("update_lemma");
+//    LOGD_PERF("update_lemma");
 #endif
 #ifdef ___SYNC_ENABLED___
     queue_lemma_for_sync(ids_[off]);
